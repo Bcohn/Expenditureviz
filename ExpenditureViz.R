@@ -56,15 +56,19 @@ Mergicare<-Mergicare[order(Mergicare$fiveo),]
 
 
 p1<-ggplot(data=Mergicare,aes(x=MedicareTotal,y=MedicaidTotal,group=factor(State_Name),color=factor(fiveo)))+geom_point(aes(size=Year))+geom_path(aes(size=Year))+
-  theme_few()+scale_color_manual(values =c("#FFD700E6","#BEBEBE17"))+xlab("Medicare Spending Per Capita")+ylab("Medicaid Spending Per Capita")+theme(panel.border = theme_border("none"))+
+  theme_few()+scale_color_manual(values =c("#FFD700E6","#BEBEBE17"))+xlab("Medicare Spending Per Enrollee Per Year")+ylab("Medicaid Spending Per Enrollee Per Year")+theme(panel.border = theme_border("none"))+
   scale_x_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
   scale_y_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
-  guides(colour = guide_legend(title="State"))+ggtitle("State Level Medicare and Medicaid Spending Per Capita 1995-2009: \n Hawai'i")
+  guides(colour = guide_legend(title="State"))+ggtitle("State Level Medicare and Medicaid Spending Per Enrollee 1991-2009: \n Hawai'i")
 
 
-p2<-ggplot(data=Mergicare[Mergicare$State!="Other States",],aes(x=MedicareTotal,y=MedicaidTotal,group=factor(State_Name),color=State))+geom_point(aes(size=Year),alpha=.9)+geom_path(aes(size=Year),alpha=.1)+
-  scale_color_manual(values=c("#d73027","#fc8d59","#e6f598","#fee08b","#91bfdb","#4575b4"))+theme_few()+xlab("Medicare Spending Per Capita")+ylab("Medicaid Spending Per Capita")+theme(panel.border = theme_border("none"))+
+p2<-ggplot(data=Mergicare[Mergicare$State!="Other States",],aes(x=MedicareTotal,y=MedicaidTotal,group=factor(State_Name),color=State))+geom_point(aes(size=Year),alpha=1)+geom_path(aes(size=Year),alpha=.2)+
+  scale_color_manual(values=c("#d73027","#fc8d59","#e6f598","#fee08b","#91bfdb","#4575b4"))+theme_few()+xlab("Medicare Spending Per Enrollee Per Year")+ylab("Medicaid Spending Per Enrollee Per Year")+theme(panel.border = theme_border("none"))+
   scale_x_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
   scale_y_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
-  guides(colour = guide_legend(title="State"))+ggtitle("State Level Medicare and Medicaid Spending Per Capita 1995-2009: \n Selected States")
+  guides(colour = guide_legend(title="State"))+ggtitle("State Level Medicare and Medicaid Spending Per Enrollee 1915-2009: \n Selected States")
 
+
+ggsave(p1,file="bighawaii.png",height=12,width=12)
+
+ggsave(p2,file="bigstates.png",height=12,width=12)
