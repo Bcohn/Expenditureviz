@@ -39,7 +39,7 @@ Mergicare$Year<-gsub("Y","",Mergicare$Year)
 Mergicare$Year<-as.numeric(as.character(Mergicare$Year))
 
 Mergicare$State='Other States'
-Mergicare[Mergicare$State_Name=="Hawaii",]$State="Hawai'i"
+Mergicare[Mergicare$State_Name=="New Jersey",]$State="New Jersey"
 Mergicare[Mergicare$State_Name=="Massachusetts",]$State="Massachusetts"
 Mergicare[Mergicare$State_Name=="Texas",]$State="Texas"
 Mergicare[Mergicare$State_Name=="Florida",]$State="Florida"
@@ -66,9 +66,25 @@ p2<-ggplot(data=Mergicare[Mergicare$State!="Other States",],aes(x=MedicareTotal,
   scale_color_manual(values=c("#d73027","#fc8d59","#e6f598","#fee08b","#91bfdb","#4575b4"))+theme_few()+xlab("Medicare Spending Per Enrollee Per Year")+ylab("Medicaid Spending Per Enrollee Per Year")+theme(panel.border = theme_border("none"))+
   scale_x_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
   scale_y_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
-  guides(colour = guide_legend(title="State"))+ggtitle("State Level Medicare and Medicaid Spending Per Enrollee 1915-2009: \n Selected States")
+  guides(colour = guide_legend(title="State"))+ggtitle("State Level Medicare and Medicaid Spending Per Enrollee 1915-2009: \n Selected States")+
+  geom_abline(intercept = 0,slope=1,color="Darkgray",linetype="dashed")+annotate("text", x = 10800, y = 14000, label = "Equal Spending Per Enrollee Line",size=3)
+
+Blue=c("Oregon","Washington","California","New Mexico","Minnesota","Iowa","Illinois","Wisconsin","Michigan","Pennsylvania","Maryland","Delaware","New Jersey","Hawaii","New York","Pennsylvania","Rhode Island",
+       "Massachusetts","Vermont","Maine")
+
+Mergicare$Party="Red"
+Mergicare[Mergicare$State_Name%in%Blue,]$Party="Blue"
+
+
+p2<-ggplot(data=Mergicare,aes(x=MedicareTotal,y=MedicaidTotal,group=factor(State_Name),color=Party))+geom_point(aes(size=Year),alpha=.8)+geom_path(aes(size=Year),alpha=.1)+
+  scale_color_manual(values=c("blue",'red'))+theme_few()+xlab("Medicare Spending Per Enrollee Per Year")+ylab("Medicaid Spending Per Enrollee Per Year")+theme(panel.border = theme_border("none"))+
+  scale_x_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
+  scale_y_continuous(breaks=c(2000,8000,14000),labels=c("$2,000","$8,000","$14,000"),limits=c(1900,16000))+
+  guides(colour = guide_legend(title="State"))+ggtitle("State Level Medicare and Medicaid Spending Per Enrollee 1915-2009: \n Selected States")+
+  geom_abline(intercept = 0,slope=1,color="Darkgray",linetype="dashed")+annotate("text", x = 10800, y = 14000, label = "Equal Spending Per Enrollee Line",size=3)
+
 
 
 ggsave(p1,file="bighawaii.png",height=12,width=12)
 
-ggsave(p2,file="bigstates.png",height=12,width=12)
+ggsave(p2,file="bigstates2.png",height=12,width=12)
